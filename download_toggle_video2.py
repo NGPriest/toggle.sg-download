@@ -41,7 +41,11 @@ NO_OF_DOWNLOAD_THREADS = 2
 FILE_PREFERENCES = 	[(1,'STB','m3u8'),	# generally 720p, Set-top Box, requires ffmpeg
 			(2,'ADD','mp4'),	# generally 540p, Android device
 			(3,'IPAD','m3u8'),	# generally 540p, iPad, requires ffmpeg
-			(4,'IPH','m3u8')]	# generally 360p, iPhone, requires ffmpeg
+			(4,'IPH','m3u8'),	# generally 360p, iPhone, requires ffmpeg
+			(5,'tablet_hd','m3u8'),	# unsure, newly added
+			(6,'web_hd','m3u8'),	# unsure, newly added
+			(7,'hlstv_hd','m3u8'),	# super big file size, super quality
+			(8,'mobile_hd','m3u8')]	# unsure, newly added
 
 # only download direct-accessible files i.e. ignore streaming files
 #FILE_PREFERENCES =	[(1,'ADD','mp4')]
@@ -67,7 +71,7 @@ VALID_EPISODES_URL = r"http?://tv\.toggle\.sg/(?:en|zh)/.+?/episodes"
 CONTENT_NAVIGATION_EXPR = r'10, 0,  (?P<content_id>[0-9]+), (?P<navigation_id>[0-9]+), isCatchup'
 EPISODE_TITLE_EXPR = r'<title>([\s\S]*?)</title>'
 URL_TITLE_EXPR = r'<h4.+?href="([\s\S]*?)">([\s\S]*?)</a>'
-FORMAT_EXPR = r'(?:STB|IPH|IPAD|ADD)'
+FORMAT_EXPR = r'(?:STB|IPH|IPAD|ADD|web_hd|tablet_hd|hlstv_hd|mobile_hd)'
 
 URL_CATEGORY = ['t_video','t_episodes']
 
@@ -223,7 +227,7 @@ def process_video_url(t_video_url):
 	}
 	
 	logger.debug("Performing HTTP GET request on download URL ...")
-	download_url_req_url = "http://tvpapi.as.tvinci.com/v2_9/gateways/jsonpostgw.aspx?m=GetMediaInfo"
+	download_url_req_url = "http://tvpapi.as.tvinci.com/v3_9/gateways/jsonpostgw.aspx?m=GetMediaInfo"
 	download_url_req_params = json.dumps(download_url_params).encode("utf-8")
 	download_url_resp = urllib_request.urlopen(download_url_req_url, download_url_req_params).read()
 	
